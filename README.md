@@ -12,3 +12,13 @@ Run
 ```sh
 $ go run main.go
 ```
+
+TODO:  
+- [x] Display the list of all articles on the home page
+- [x] Display a single article on its own page
+- [ ] Users register with a username and a password
+- [ ] Login
+- [ ] Log out
+- [ ] Create new articles (logged in users only)
+- [ ] Use PostgreSQL as database
+- [ ] Deploy on cloud
