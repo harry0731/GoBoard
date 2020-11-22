@@ -1,7 +1,7 @@
 # GoBoard
 A message board built in Golang
 
-This project is for Go practicing and guided by [Building Go Web Applications and Microservices Using Gin](https://semaphoreci.com/community/tutorials/building-go-web-applications-and-microservices-using-gin)
+This project is for Go practicing and guided by [Building Go Web Applications and Microservices Using Gin](https://semaphoreci.com/community/tutorials/building-go-web-applications-and-microservices-using-gin) and [Test-driven Development of Go Web Applications with Gin](https://semaphoreci.com/community/tutorials/test-driven-development-of-go-web-applications-with-gin)
 
 Install Dependency  
 ```sh
