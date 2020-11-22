@@ -22,3 +22,4 @@ TODO:
 - [ ] Create new articles (logged in users only)
 - [ ] Use PostgreSQL as database
 - [ ] Deploy on cloud
+- [ ] Implement Goroutine
