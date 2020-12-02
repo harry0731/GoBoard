@@ -1,16 +1,17 @@
-// handler/article.go
+// controllers/article.go
 
-package handler
+package controllers
 
 import (
-	"GoBoard/src/model"
-	"github.com/gin-gonic/gin"
+	"GoBoard/models"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func ShowIndexPage(c *gin.Context) {
-	articles := model.GetAllArticles()
+	articles := models.GetAllArticles()
 
 	// Call the HTML method of the Context to render a template
 	// c.HTML(
@@ -34,7 +35,7 @@ func GetArticle(c *gin.Context) {
 	// Check if the article ID is valid
 	if articleID, err := strconv.Atoi(c.Param("article_id")); err == nil {
 		// Check if the article exists
-		if article, err := model.GetArticleByID(articleID); err == nil {
+		if article, err := models.GetArticleByID(articleID); err == nil {
 			// Call the HTML method of the Context to render a template
 			c.HTML(
 				// Set the HTTP status to 200 (OK)

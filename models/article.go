@@ -1,6 +1,6 @@
-// model/article.go
+// models/article.go
 
-package model
+package models
 
 import "errors"
 

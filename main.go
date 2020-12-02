@@ -3,13 +3,13 @@
 package main
 
 import (
-	"GoBoard/src/router"
+	"GoBoard/routers"
 )
 
 func main() {
 
 	// Initialize the routes
-	var router = router.InitializeRoutes()
+	var router = routers.InitializeRoutes()
 
 	// Start serving the application
 	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")

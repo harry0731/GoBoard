@@ -1,17 +1,19 @@
 // tool/common_test.go
 
-package tool
+package tools
 
 import (
-	"GoBoard/src/model"
-	"github.com/gin-gonic/gin"
+	"GoBoard/models"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
+
+	"github.com/gin-gonic/gin"
 )
 
-var tmpArticleList []model.Article
+var tmpUserList []models.User
+var tmpArticleList []models.Article
 
 // This function is used for setup before executing the test functions
 func TestMain(m *testing.M) {
@@ -48,10 +50,12 @@ func CheckHTTPResponse(t *testing.T, r *gin.Engine, req *http.Request, f func(w 
 // This function is used to store the main lists into the temporary one
 // for testing
 func SaveLists() {
-	tmpArticleList = model.ArticleList
+	tmpUserList = models.UserList
+	tmpArticleList = models.ArticleList
 }
 
 // This function is used to restore the main lists from the temporary one
 func RestoreLists() {
-	model.ArticleList = tmpArticleList
+	models.UserList = tmpUserList
+	models.ArticleList = tmpArticleList
 }

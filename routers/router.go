@@ -1,9 +1,10 @@
-// router.router.go
+// routers/router.go
 
-package router
+package routers
 
 import (
-	"GoBoard/src/handler"
+	"GoBoard/controllers"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,10 +21,17 @@ func InitializeRoutes() *gin.Engine {
 	// standalone functions that will be used as route handlers.
 
 	// Handle the index route
-	router.GET("/", handler.ShowIndexPage)
+	router.GET("/", controllers.ShowIndexPage)
 
 	// Handle GET requests at /article/view/some_article_id
-	router.GET("/article/view/:article_id", handler.GetArticle)
+	router.GET("/article/view/:article_id", controllers.GetArticle)
+
+	userRoutes := router.Group("/u")
+	{
+		userRoutes.GET("/register", controllers.ShowRegistrationPage)
+
+		userRoutes.POST("/register", controllers.Register)
+	}
 
 	return router
 }

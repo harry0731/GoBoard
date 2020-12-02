@@ -1,9 +1,10 @@
-// handler/article_test.go
+// tests/article_controller_test.go
 
-package handler
+package tests
 
 import (
-	"GoBoard/src/tool"
+	"GoBoard/controllers"
+	"GoBoard/tools"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -12,16 +13,15 @@ import (
 )
 
 // Test that a GET request to the home page returns the home page with
-// the HTTP code 200 for an unauthenticated user
 func TestShowIndexPageUnauthenticated(t *testing.T) {
-	r := tool.GetRouter(true)
+	r := tools.GetRouter(true)
 
-	r.GET("/", ShowIndexPage)
+	r.GET("/", controllers.ShowIndexPage)
 
 	// Create a request to send to the above route
 	req, _ := http.NewRequest("GET", "/", nil)
 
-	tool.CheckHTTPResponse(t, r, req, func(w *httptest.ResponseRecorder) bool {
+	tools.CheckHTTPResponse(t, r, req, func(w *httptest.ResponseRecorder) bool {
 		// Test that the http status code is 200
 		statusOK := w.Code == http.StatusOK
 
