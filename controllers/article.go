@@ -32,6 +32,7 @@ func ShowIndexPage(c *gin.Context) {
 }
 
 func GetArticle(c *gin.Context) {
+	loggedInInterface, _ := c.Get("is_logged_in")
 	// Check if the article ID is valid
 	if articleID, err := strconv.Atoi(c.Param("article_id")); err == nil {
 		// Check if the article exists
@@ -44,11 +45,11 @@ func GetArticle(c *gin.Context) {
 				"article.html",
 				// Pass the data that the page uses
 				gin.H{
-					"title":   article.Title,
-					"payload": article,
+					"title":        article.Title,
+					"payload":      article,
+					"is_logged_in": loggedInInterface.(bool),
 				},
 			)
-
 		} else {
 			// If the article is not found, abort with an error
 			c.AbortWithError(http.StatusNotFound, err)
@@ -64,6 +65,8 @@ func GetArticle(c *gin.Context) {
 // If the header doesn't specify this, HTML is rendered, provided that
 // the template name is present
 func render(c *gin.Context, data gin.H, templateName string) {
+	loggedInInterface, _ := c.Get("is_logged_in")
+	data["is_logged_in"] = loggedInInterface.(bool)
 
 	switch c.Request.Header.Get("Accept") {
 	case "application/json":
@@ -77,4 +80,22 @@ func render(c *gin.Context, data gin.H, templateName string) {
 		c.HTML(http.StatusOK, templateName, data)
 	}
 
+}
+
+func ShowArticleCreationPage(c *gin.Context) {
+	render(c, gin.H{
+		"title": "Create New Article"}, "create-article.html")
+}
+
+func CreateArticle(c *gin.Context) {
+	title := c.PostForm("title")
+	content := c.PostForm("content")
+
+	if a, err := models.CreateNewArticle(title, content); err == nil {
+		render(c, gin.H{
+			"title":   "Submission Successful",
+			"payload": a}, "submission-successful.html")
+	} else {
+		c.AbortWithStatus(http.StatusBadRequest)
+	}
 }

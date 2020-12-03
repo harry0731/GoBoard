@@ -13,9 +13,9 @@ type User struct {
 }
 
 var UserList = []User{
-	User{Username: "user1", Password: "pass1"},
-	User{Username: "user2", Password: "pass2"},
-	User{Username: "user3", Password: "pass3"},
+	{Username: "user1", Password: "pass1"},
+	{Username: "user2", Password: "pass2"},
+	{Username: "user3", Password: "pass3"},
 }
 
 func RegisterNewUser(username, password string) (*User, error) {
@@ -39,4 +39,13 @@ func IsUsernameAvailable(username string) bool {
 		}
 	}
 	return true
+}
+
+func IsUserValid(username, password string) bool {
+	for _, u := range UserList {
+		if u.Username == username && u.Password == password {
+			return true
+		}
+	}
+	return false
 }

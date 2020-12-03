@@ -3,6 +3,7 @@
 package tools
 
 import (
+	auth "GoBoard/middlewares"
 	"GoBoard/models"
 	"net/http"
 	"net/http/httptest"
@@ -29,12 +30,13 @@ func GetRouter(withTemplates bool) *gin.Engine {
 	r := gin.Default()
 	if withTemplates {
 		r.LoadHTMLGlob("../templates/*")
+		r.Use(auth.SetUserStatus())
 	}
 	return r
 }
 
 // Helper function to process a request and test its response
-func CheckHTTPResponse(t *testing.T, r *gin.Engine, req *http.Request, f func(w *httptest.ResponseRecorder) bool) {
+func TestHTTPResponse(t *testing.T, r *gin.Engine, req *http.Request, f func(w *httptest.ResponseRecorder) bool) {
 
 	// Create a response recorder
 	w := httptest.NewRecorder()
@@ -58,4 +60,12 @@ func SaveLists() {
 func RestoreLists() {
 	models.UserList = tmpUserList
 	models.ArticleList = tmpArticleList
+}
+
+func TestMiddlewareRequest(t *testing.T, r *gin.Engine, expectedHTTPCode int) {
+	req, _ := http.NewRequest("GET", "/", nil)
+
+	TestHTTPResponse(t, r, req, func(w *httptest.ResponseRecorder) bool {
+		return w.Code == expectedHTTPCode
+	})
 }

@@ -14,8 +14,8 @@ type Article struct {
 // In a real application, this list will most likely be fetched
 // from a database or from static files
 var ArticleList = []Article{
-	Article{ID: 1, Title: "Article 1", Content: "Article 1 body"},
-	Article{ID: 2, Title: "Article 2", Content: "Article 2 body"},
+	{ID: 1, Title: "Article 1", Content: "Article 1 body"},
+	{ID: 2, Title: "Article 2", Content: "Article 2 body"},
 }
 
 // Return a list of all the articles
@@ -30,4 +30,12 @@ func GetArticleByID(id int) (*Article, error) {
 		}
 	}
 	return nil, errors.New("Article not found")
+}
+
+func CreateNewArticle(title, content string) (*Article, error) {
+	a := Article{ID: len(ArticleList) + 1, Title: title, Content: content}
+
+	ArticleList = append(ArticleList, a)
+
+	return &a, nil
 }

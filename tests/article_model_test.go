@@ -28,3 +28,18 @@ func TestGetAllArticles(t *testing.T) {
 		}
 	}
 }
+
+func TestCreateNewArticle(t *testing.T) {
+	originalLength := len(models.GetAllArticles())
+
+	a, err := models.CreateNewArticle("New test title", "New test content")
+
+	allArticles := models.GetAllArticles()
+	newLength := len(allArticles)
+
+	if err != nil || newLength != originalLength+1 ||
+		a.Title != "New test title" || a.Content != "New test content" {
+
+		t.Fail()
+	}
+}

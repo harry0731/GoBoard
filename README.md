@@ -22,8 +22,8 @@ TODO:
 - [x] Display the list of all articles on the home page
 - [x] Display a single article on its own page
 - [x] Users register with a username and a password
-- [ ] Login
-- [ ] Log out
-- [ ] Create new articles (logged in users only)
+- [x] Login
+- [x] Log out
+- [x] Create new articles (logged in users only)
 - [ ] Use PostgreSQL as database
 - [ ] Deploy on cloud

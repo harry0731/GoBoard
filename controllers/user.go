@@ -45,3 +45,33 @@ func Register(c *gin.Context) {
 
 	}
 }
+
+func ShowLoginPage(c *gin.Context) {
+	render(c, gin.H{
+		"title": "Login",
+	}, "login.html")
+}
+
+func PerformLogin(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+
+	if models.IsUserValid(username, password) {
+		token := GenerateSessionToken()
+		c.SetCookie("token", token, 3600, "", "", false, true)
+
+		render(c, gin.H{
+			"title": "Successful Login"}, "login-successful.html")
+
+	} else {
+		c.HTML(http.StatusBadRequest, "login.html", gin.H{
+			"ErrorTitle":   "Login Failed",
+			"ErrorMessage": "Invalid credentials provided"})
+	}
+}
+
+func Logout(c *gin.Context) {
+	c.SetCookie("token", "", -1, "", "", false, true)
+
+	c.Redirect(http.StatusTemporaryRedirect, "/")
+}
