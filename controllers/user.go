@@ -3,7 +3,7 @@
 package controllers
 
 import (
-	"GoBoard/models"
+	"GoBoard/database"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -28,7 +28,7 @@ func Register(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
-	if _, err := models.RegisterNewUser(username, password); err == nil {
+	if err := database.RegisterNewUser(username, password); err == nil {
 		// If the user is created, set the token in a cookie and log the user in
 		token := GenerateSessionToken()
 		c.SetCookie("token", token, 3600, "", "", false, true)
@@ -56,7 +56,7 @@ func PerformLogin(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
-	if models.IsUserValid(username, password) {
+	if valid, err := database.IsUserValid(username, password); err == nil && valid {
 		token := GenerateSessionToken()
 		c.SetCookie("token", token, 3600, "", "", false, true)
 

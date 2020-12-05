@@ -3,7 +3,7 @@
 package controllers
 
 import (
-	"GoBoard/models"
+	"GoBoard/database"
 	"net/http"
 	"strconv"
 
@@ -11,7 +11,7 @@ import (
 )
 
 func ShowIndexPage(c *gin.Context) {
-	articles := models.GetAllArticles()
+	articles, err := database.GetAllArticles()
 
 	// Call the HTML method of the Context to render a template
 	// c.HTML(
@@ -25,10 +25,11 @@ func ShowIndexPage(c *gin.Context) {
 	// 		"payload": articles,
 	// 	},
 	// )
-
-	render(c, gin.H{
-		"title":   "Home Page",
-		"payload": articles}, "index.html")
+	if err == nil {
+		render(c, gin.H{
+			"title":   "Home Page",
+			"payload": articles}, "index.html")
+	}
 }
 
 func GetArticle(c *gin.Context) {
@@ -36,7 +37,7 @@ func GetArticle(c *gin.Context) {
 	// Check if the article ID is valid
 	if articleID, err := strconv.Atoi(c.Param("article_id")); err == nil {
 		// Check if the article exists
-		if article, err := models.GetArticleByID(articleID); err == nil {
+		if article, err := database.GetArticleByID(articleID); err == nil {
 			// Call the HTML method of the Context to render a template
 			c.HTML(
 				// Set the HTTP status to 200 (OK)
@@ -91,7 +92,7 @@ func CreateArticle(c *gin.Context) {
 	title := c.PostForm("title")
 	content := c.PostForm("content")
 
-	if a, err := models.CreateNewArticle(title, content); err == nil {
+	if a, err := database.CreateNewArticle(title, content); err == nil {
 		render(c, gin.H{
 			"title":   "Submission Successful",
 			"payload": a}, "submission-successful.html")
